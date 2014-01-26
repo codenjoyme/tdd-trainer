@@ -1,9 +1,5 @@
 package com.apofig.tddtrainer.model;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * User: sanja
  * Date: 26.01.14
@@ -13,15 +9,15 @@ public class Trainer {
 
     private Solver calculator;
     private Solver solver;
-    private List<String> tasks = new LinkedList<String>();
+    private Tasks tasks;
 
-    public Trainer() {
-        tasks.addAll(Arrays.asList("1+1", "1+2"));
-        calculator = new Calculator();
+    public Trainer(Tasks tasks, Solver calculator) {
+        this.tasks = tasks;
+        this.calculator = calculator;
     }
 
     public String getTask() {
-        return tasks.get(0);
+        return tasks.getTask();
     }
 
     public void update(Solver solver) {
@@ -31,7 +27,7 @@ public class Trainer {
         String actual = solver.solve(getTask());
         String expected = calculator.solve(getTask());
         if (expected.equals(actual)) {
-            tasks.remove(0);
+            tasks.solved();
         }
     }
 }

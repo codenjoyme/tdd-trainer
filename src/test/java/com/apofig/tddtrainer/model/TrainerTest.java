@@ -20,7 +20,7 @@ public class TrainerTest {
 
     @Before
     public void setup() {
-        trainer = new Trainer();
+        trainer = new Trainer(new TasksImpl("1+1", "1+2", "1+3"), new Calculator());
         solver = mock(Solver.class);
     }
 
