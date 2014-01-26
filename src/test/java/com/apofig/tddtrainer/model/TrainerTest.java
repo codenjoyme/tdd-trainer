@@ -18,6 +18,7 @@ public class TrainerTest {
 
     public static final int SUCCESS_SCORE = 100;
     public static final int FAIL_PENALTY = -100;
+    private static final int REGRESSION_PENALTY = -1000;
 
     private Trainer trainer;
     private Solver solver;
@@ -113,7 +114,26 @@ public class TrainerTest {
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(solver, times(3)).solve(captor.capture());
         assertEquals("[1+1, 1+2, 1+3]", captor.getAllValues().toString());
+    }
 
+    @Test
+    public void shouldRemoveScoresWhenRegressionFail() {
+        // given
+        solverReturn("2");
+        assertCurrentTask("1+1");
+        trainer.update(solver);
+        reset(scores);
+
+        assertCurrentTask("1+2");
+
+        // when
+        solverReturn("fail", "3");
+        trainer.update(solver);
+
+        // then
+        verify(scores).add(REGRESSION_PENALTY);
+
+        assertCurrentTask("1+2");
     }
 
 }

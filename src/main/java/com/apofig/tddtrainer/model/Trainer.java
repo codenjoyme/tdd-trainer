@@ -25,7 +25,7 @@ public class Trainer {
         if (solver == null) return;
 
         if (isFailRegression(solver)) {
-//            scores.add(-1000);
+            scores.add(-1000);
             return;
         }
 
