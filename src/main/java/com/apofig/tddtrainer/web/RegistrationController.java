@@ -52,7 +52,7 @@ public class RegistrationController {
             return "register";
         }
 
-        playerService.register(player.getName());
+        playerService.register(player);
         return "redirect:/board/" + player.getName();
     }
 }

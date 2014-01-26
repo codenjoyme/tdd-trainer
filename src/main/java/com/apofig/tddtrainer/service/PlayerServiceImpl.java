@@ -1,9 +1,13 @@
 package com.apofig.tddtrainer.service;
 
 import com.apofig.tddtrainer.model.*;
+import com.codenjoy.dojo.transport.screen.ScreenData;
+import com.codenjoy.dojo.transport.screen.ScreenRecipient;
+import com.codenjoy.dojo.transport.screen.ScreenSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,17 +20,23 @@ public class PlayerServiceImpl implements Tick {
 
     private Trainer trainer;
     private Solver solver;
+    private Player player;
+    private String info;
+    public int score;
 
-    @Autowired
-    private PlayerController wsPlayerController;
+    @Autowired private PlayerController wsPlayerController;
+    @Autowired private ScreenSender<ScreenRecipient, PlayerData> screenSender;
 
     public PlayerServiceImpl() {
         List<String> tasks = new WithFile("com\\apofig\\tddtrainer\\tasks.txt").loadSplitted("\r\n");
 
         trainer = new Trainer(new TasksImpl(tasks), new Calculator(), new Scores() {
+
             @Override
             public void add(int score) {
-                System.out.println("Score added:" + score);
+                info = "" + score;
+                PlayerServiceImpl.this.score += score;
+                PlayerServiceImpl.this.score = Math.max(0, PlayerServiceImpl.this.score);
             }
         });
     }
@@ -34,10 +44,22 @@ public class PlayerServiceImpl implements Tick {
     @Override
     public void tick() {
         trainer.tick();
+
+        HashMap<ScreenRecipient, PlayerData> map = new HashMap<ScreenRecipient, PlayerData>();
+        map.put(player, new PlayerData(score, info));
+        screenSender.sendUpdates(map);
     }
 
-    public void register(String playerName) {
-        solver = wsPlayerController.register(playerName);
+    public void register(Player player) {
+        this.player = player;
+        solver = wsPlayerController.register(player.getName());
         trainer.set(solver);
+    }
+
+    public Player get(String playerName) {
+        if (player == null || !player.getName().equals(playerName)) {
+            return Player.NULL;
+        }
+        return player;
     }
 }

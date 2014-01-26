@@ -46,17 +46,16 @@
         <url-pattern>/ws/*</url-pattern>
     </servlet-mapping>
 
-   <!-- <servlet>
+    <servlet>
         <servlet-name>screenControllerServlet</servlet-name>
         <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
         <async-supported>true</async-supported>
     </servlet>
 
-
     <servlet-mapping>
         <servlet-name>screenControllerServlet</servlet-name>
         <url-pattern>/screen</url-pattern>
-    </servlet-mapping>-->
+    </servlet-mapping>
 
 
 </web-app>
