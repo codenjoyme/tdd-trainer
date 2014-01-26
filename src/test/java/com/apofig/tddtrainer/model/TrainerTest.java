@@ -2,12 +2,12 @@ package com.apofig.tddtrainer.model;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.stubbing.OngoingStubbing;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * User: sanja
@@ -18,6 +18,7 @@ public class TrainerTest {
 
     public static final int SUCCESS_SCORE = 100;
     public static final int FAIL_PENALTY = -100;
+
     private Trainer trainer;
     private Solver solver;
     private Scores scores;
@@ -33,9 +34,11 @@ public class TrainerTest {
         assertEquals(expected, trainer.getTask());
     }
 
-    private void solverReturn(String value) {
-        when(solver.solve(anyString())).thenReturn(value);
-        trainer.update(solver);
+    private void solverReturn(String... values) {
+        OngoingStubbing<String> when = when(solver.solve(anyString()));
+        for (String value : values) {
+            when = when.thenReturn(value);
+        }
     }
 
     @Test
@@ -59,6 +62,8 @@ public class TrainerTest {
         assertCurrentTask("1+1");
 
         solverReturn("3");
+
+        trainer.update(solver);
 
         assertCurrentTask("1+1");
     }
@@ -86,5 +91,29 @@ public class TrainerTest {
         assertCurrentTask("1+1");
     }
 
+    @Test
+    public void shouldAskSolverWithAllTestsWhenUpdate() {
+        // given
+        solverReturn("2");
+        assertCurrentTask("1+1");
+        trainer.update(solver);
+
+        assertCurrentTask("1+2");
+        solverReturn("2", "3");
+        trainer.update(solver);
+
+        reset(solver);
+        assertCurrentTask("1+3");
+
+        // when
+        solverReturn("2", "3");
+        trainer.update(solver);
+
+        // then
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(solver, times(3)).solve(captor.capture());
+        assertEquals("[1+1, 1+2, 1+3]", captor.getAllValues().toString());
+
+    }
 
 }

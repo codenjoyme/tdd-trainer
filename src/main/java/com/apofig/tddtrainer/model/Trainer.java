@@ -24,13 +24,31 @@ public class Trainer {
     public void update(Solver solver) {
         if (solver == null) return;
 
-        String actual = solver.solve(getTask());
-        String expected = calculator.solve(getTask());
-        if (expected.equals(actual)) {
+        if (isFailRegression(solver)) {
+//            scores.add(-1000);
+            return;
+        }
+
+        if (isSolved(solver, tasks.getTask())) {
             tasks.solved();
             scores.add(100);
         } else {
             scores.add(-100);
         }
+    }
+
+    private boolean isFailRegression(Solver solver) {
+        for (String oldTask : tasks.oldTasks()) {
+            if (!isSolved(solver, oldTask)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isSolved(Solver solver, String task) {
+        String actual = solver.solve(task);
+        String expected = calculator.solve(task);
+        return expected.equals(actual);
     }
 }

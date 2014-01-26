@@ -12,19 +12,26 @@ import java.util.List;
 public class TasksImpl implements Tasks {
 
     private final List<String> tasks;
+    private int index;
 
     public TasksImpl(String ... tasks) {
         this.tasks = new LinkedList<String>();
         this.tasks.addAll(Arrays.asList(tasks));
+        index = 0;
     }
 
     @Override
     public String getTask() {
-        return tasks.get(0);
+        return tasks.get(index);
     }
 
     @Override
     public void solved() {
-        tasks.remove(0);
+        index++;
+    }
+
+    @Override
+    public List<String> oldTasks() {
+        return tasks.subList(0, index);
     }
 }
