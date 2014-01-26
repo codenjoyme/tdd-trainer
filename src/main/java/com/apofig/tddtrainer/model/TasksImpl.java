@@ -1,6 +1,5 @@
 package com.apofig.tddtrainer.model;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,9 +13,9 @@ public class TasksImpl implements Tasks {
     private final List<String> tasks;
     private int index;
 
-    public TasksImpl(String ... tasks) {
+    public TasksImpl(List<String> tasks) {
         this.tasks = new LinkedList<String>();
-        this.tasks.addAll(Arrays.asList(tasks));
+        this.tasks.addAll(tasks);
         index = 0;
     }
 

@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.stubbing.OngoingStubbing;
 
+import java.util.Arrays;
+
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -27,7 +29,7 @@ public class TrainerTest {
     @Before
     public void setup() {
         scores = mock(Scores.class);
-        trainer = new Trainer(new TasksImpl("1+1", "1+2", "1+3"), new Calculator(), scores);
+        trainer = new Trainer(new TasksImpl(Arrays.asList("1+1", "1+2", "1+3")), new Calculator(), scores);
         solver = mock(Solver.class);
         trainer.set(solver);
     }
