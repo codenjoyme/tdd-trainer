@@ -16,6 +16,8 @@ import static org.mockito.Mockito.when;
  */
 public class TrainerTest {
 
+    public static final int SUCCESS_SCORE = 100;
+    public static final int FAIL_PENALTY = -100;
     private Trainer trainer;
     private Solver solver;
     private Scores scores;
@@ -65,14 +67,14 @@ public class TrainerTest {
     public void shouldAddScoreWhenSolved() {
         shouldSecondTaskWhenResolveFirst();
 
-        verify(scores).add(100);
+        verify(scores).add(SUCCESS_SCORE);
     }
 
     @Test
     public void shouldRemoveScoreWhenNotSolved() {
         shouldStillFirstTaskWhenNotResolveFirst();
 
-        verify(scores).add(-100);
+        verify(scores).add(FAIL_PENALTY);
     }
 
     @Test
