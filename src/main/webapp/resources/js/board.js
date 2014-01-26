@@ -13,6 +13,10 @@ function initBoard(playerName, contextPath){
 
     function drawBoardForPlayer(data) {
         canvas.clear();
+        for (var index in data.testList) {
+            var value = data.testList[index];
+            canvas.drawText(value, {x:2, y:index + 1});
+        }
     }
 
     function calculateTextSize(text) {

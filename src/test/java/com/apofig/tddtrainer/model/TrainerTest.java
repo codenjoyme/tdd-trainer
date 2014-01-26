@@ -29,7 +29,7 @@ public class TrainerTest {
     @Before
     public void setup() {
         scores = mock(Scores.class);
-        trainer = new Trainer(new TasksImpl(Arrays.asList("1+1", "1+2", "1+3")), new Calculator(), scores);
+        trainer = new Trainer(new TasksImpl(Arrays.asList("1+1", "1+2", "1+3", "1+4")), new Calculator(), scores);
         solver = mock(Solver.class);
         trainer.set(solver);
     }
@@ -47,52 +47,64 @@ public class TrainerTest {
 
     @Test
     public void shouldFirstTestFromListWhenStart() {
+        // then
         assertCurrentTask("1+1");
     }
 
     @Test
     public void shouldSecondTaskWhenResolveFirst() {
+        // given
         assertCurrentTask("1+1");
 
+        // when
         solverReturn("2");
-
         trainer.tick();
 
+        // then
         assertCurrentTask("1+2");
     }
 
     @Test
     public void shouldStillFirstTaskWhenNotResolveFirst() {
+        // given
         assertCurrentTask("1+1");
 
+        // when
         solverReturn("3");
-
         trainer.tick();
 
+        // then
         assertCurrentTask("1+1");
     }
 
     @Test
     public void shouldAddScoreWhenSolved() {
+        // given, when
         shouldSecondTaskWhenResolveFirst();
 
+        // then
         verify(scores).add(SUCCESS_SCORE);
     }
 
     @Test
     public void shouldRemoveScoreWhenNotSolved() {
+        // given, when
         shouldStillFirstTaskWhenNotResolveFirst();
 
+        // then
         verify(scores).add(FAIL_PENALTY);
     }
 
     @Test
     public void shouldDoNothingWhenSolverIsNull() {
+        // given
         assertCurrentTask("1+1");
 
+        // when
         trainer.set(null);
         trainer.tick();
 
+        // then
         assertCurrentTask("1+1");
     }
 
@@ -155,5 +167,64 @@ public class TrainerTest {
         // then
         verify(solver).solve("1+1");
     }
+
+    @Test
+    public void shouldReturnTestListWhenFail() {
+        // given
+        solverReturn("2");
+        assertCurrentTask("1+1");
+        trainer.tick();
+
+        assertCurrentTask("1+2");
+        solverReturn("2", "3");
+        trainer.tick();
+
+        assertCurrentTask("1+3");
+        solverReturn("fail", "3", "4");
+
+        // when
+        trainer.tick();
+
+        // then
+        assertEquals("[1+1 fail, 1+2 success, 1+3 current]", trainer.getTestList().toString());
+    }
+
+    @Test
+    public void shouldReturnTestListWhenNotFail() {
+        // given
+        solverReturn("2");
+        assertCurrentTask("1+1");
+        trainer.tick();
+
+        assertCurrentTask("1+2");
+        solverReturn("2", "3");
+        trainer.tick();
+
+        assertCurrentTask("1+3");
+        solverReturn("2", "3", "4");
+
+        // when
+        trainer.tick();
+
+        // then
+        assertEquals("[1+1 success, 1+2 success, 1+3 success, 1+4 current]", trainer.getTestList().toString());
+    }
+
+    @Test
+    public void shouldStillBadScoresWhenSecondTick() {
+        // given
+        assertCurrentTask("1+1");
+        solverReturn("fail");
+        trainer.tick();
+        reset(scores);
+
+        //when
+        trainer.tick();
+
+        // then
+        assertCurrentTask("1+1");
+        verify(scores).add(FAIL_PENALTY);
+    }
+
 
 }

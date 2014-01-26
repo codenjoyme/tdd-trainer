@@ -1,5 +1,8 @@
 package com.apofig.tddtrainer.model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * User: sanja
  * Date: 26.01.14
@@ -11,11 +14,13 @@ public class Trainer implements Tick {
     private Tasks tasks;
     private Scores scores;
     private Solver solver;
+    private List<Boolean> testResult;
 
     public Trainer(Tasks tasks, Solver calculator, Scores scores) {
         this.tasks = tasks;
         this.calculator = calculator;
         this.scores = scores;
+        testResult = new LinkedList<Boolean>();
     }
 
     public String getTask() {
@@ -32,7 +37,10 @@ public class Trainer implements Tick {
             return;
         }
 
-        if (isSolved(solver, tasks.getTask())) {
+        String task = tasks.getTask();
+        boolean solved = isSolved(solver, task);
+        testResult.add(solved);
+        if (solved) {
             tasks.solved();
             scores.add(100);
         } else {
@@ -41,10 +49,13 @@ public class Trainer implements Tick {
     }
 
     private boolean isFailRegression(Solver solver) {
-        for (String oldTask : tasks.oldTasks()) {
-            if (!isSolved(solver, oldTask)) {
-                return true;
-            }
+        List<String> list = tasks.oldTasks();
+        for (int index = 0; index < list.size(); index++) {
+            testResult.set(index, isSolved(solver, list.get(index)));
+        }
+
+        for (int index = 0; index < list.size(); index++) {
+            if (!testResult.get(index)) return true;
         }
         return false;
     }
@@ -60,5 +71,21 @@ public class Trainer implements Tick {
         if (solver == null) return;
 
         runSolver();
+    }
+
+    public List<String> getTestList() {
+        List<String> result = new LinkedList<String>();
+
+        List<String> list = tasks.oldTasks();
+        for (int index = 0; index < list.size(); index++) {
+            result.add(list.get(index) + " " + getString(testResult.get(index)));
+        }
+        result.add(tasks.getTask() + " " + "current");
+
+        return result;
+    }
+
+    private String getString(Boolean b) {
+        return b ? "success" : "fail";
     }
 }

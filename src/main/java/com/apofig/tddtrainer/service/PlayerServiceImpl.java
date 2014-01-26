@@ -46,7 +46,7 @@ public class PlayerServiceImpl implements Tick {
         trainer.tick();
 
         HashMap<ScreenRecipient, PlayerData> map = new HashMap<ScreenRecipient, PlayerData>();
-        map.put(player, new PlayerData(score, info));
+        map.put(player, new PlayerData(score, trainer.getTestList(), info));
         screenSender.sendUpdates(map);
     }
 
