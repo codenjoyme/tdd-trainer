@@ -28,24 +28,34 @@ public class TrainerTest {
         assertEquals(expected, trainer.getTask());
     }
 
-    private void shouldSolver(String value) {
+    private void solverReturn(String value) {
         when(solver.solve(anyString())).thenReturn(value);
+        trainer.update(solver);
     }
 
     @Test
     public void shouldFirstTestFromListWhenStart() {
-        assertCurrentTask("1+1=?");
+        assertCurrentTask("1+1");
     }
 
     @Test
     public void shouldSecondTaskWhenResolveFirst() {
-        assertCurrentTask("1+1=?");
+        assertCurrentTask("1+1");
 
-        shouldSolver("2");
+        solverReturn("2");
 
         trainer.update(solver);
 
-        assertCurrentTask("1+2=?");
+        assertCurrentTask("1+2");
+    }
+
+    @Test
+    public void shouldStillFirstTaskWhenNotResolveFirst() {
+        assertCurrentTask("1+1");
+
+        solverReturn("3");
+
+        assertCurrentTask("1+1");
     }
 
 }
