@@ -136,4 +136,20 @@ public class TrainerTest {
         assertCurrentTask("1+2");
     }
 
+    @Test
+    public void shouldAskSolverWhenTick() {
+        // given
+        solverReturn("2");
+        assertCurrentTask("1+1");
+        trainer.update(solver);
+        reset(solver);
+
+        // when
+        solverReturn("2");
+        trainer.tick();
+
+        // then
+        verify(solver).solve("1+1");
+    }
+
 }

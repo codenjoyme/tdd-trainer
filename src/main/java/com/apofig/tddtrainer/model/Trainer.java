@@ -5,11 +5,12 @@ package com.apofig.tddtrainer.model;
  * Date: 26.01.14
  * Time: 20:23
  */
-public class Trainer {
+public class Trainer implements Tick {
 
     private Solver calculator;
     private Tasks tasks;
     private Scores scores;
+    private Solver solver;
 
     public Trainer(Tasks tasks, Solver calculator, Scores scores) {
         this.tasks = tasks;
@@ -23,7 +24,12 @@ public class Trainer {
 
     public void update(Solver solver) {
         if (solver == null) return;
+        this.solver = solver;
 
+        runSolver();
+    }
+
+    private void runSolver() {
         if (isFailRegression(solver)) {
             scores.add(-1000);
             return;
@@ -50,5 +56,10 @@ public class Trainer {
         String actual = solver.solve(task);
         String expected = calculator.solve(task);
         return expected.equals(actual);
+    }
+
+    @Override
+    public void tick() {
+        runSolver();
     }
 }
