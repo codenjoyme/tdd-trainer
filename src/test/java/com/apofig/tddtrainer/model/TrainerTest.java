@@ -29,6 +29,7 @@ public class TrainerTest {
         scores = mock(Scores.class);
         trainer = new Trainer(new TasksImpl("1+1", "1+2", "1+3"), new Calculator(), scores);
         solver = mock(Solver.class);
+        trainer.set(solver);
     }
 
     private void assertCurrentTask(String expected) {
@@ -53,7 +54,7 @@ public class TrainerTest {
 
         solverReturn("2");
 
-        trainer.update(solver);
+        trainer.tick();
 
         assertCurrentTask("1+2");
     }
@@ -64,7 +65,7 @@ public class TrainerTest {
 
         solverReturn("3");
 
-        trainer.update(solver);
+        trainer.tick();
 
         assertCurrentTask("1+1");
     }
@@ -87,7 +88,8 @@ public class TrainerTest {
     public void shouldDoNothingWhenSolverIsNull() {
         assertCurrentTask("1+1");
 
-        trainer.update(null);
+        trainer.set(null);
+        trainer.tick();
 
         assertCurrentTask("1+1");
     }
@@ -97,18 +99,18 @@ public class TrainerTest {
         // given
         solverReturn("2");
         assertCurrentTask("1+1");
-        trainer.update(solver);
+        trainer.tick();
 
         assertCurrentTask("1+2");
         solverReturn("2", "3");
-        trainer.update(solver);
+        trainer.tick();
 
         reset(solver);
         assertCurrentTask("1+3");
 
         // when
         solverReturn("2", "3");
-        trainer.update(solver);
+        trainer.tick();
 
         // then
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
@@ -121,14 +123,14 @@ public class TrainerTest {
         // given
         solverReturn("2");
         assertCurrentTask("1+1");
-        trainer.update(solver);
+        trainer.tick();
         reset(scores);
 
         assertCurrentTask("1+2");
 
         // when
         solverReturn("fail", "3");
-        trainer.update(solver);
+        trainer.tick();
 
         // then
         verify(scores).add(REGRESSION_PENALTY);
@@ -141,7 +143,7 @@ public class TrainerTest {
         // given
         solverReturn("2");
         assertCurrentTask("1+1");
-        trainer.update(solver);
+        trainer.tick();
         reset(solver);
 
         // when

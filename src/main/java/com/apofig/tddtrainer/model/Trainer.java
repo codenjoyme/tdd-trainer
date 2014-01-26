@@ -22,11 +22,9 @@ public class Trainer implements Tick {
         return tasks.getTask();
     }
 
-    public void update(Solver solver) {
+    public void set(Solver solver) {
         if (solver == null) return;
         this.solver = solver;
-
-        runSolver();
     }
 
     private void runSolver() {
