@@ -66,8 +66,8 @@ public class WebSocketRunner {
             }
 
             public void onMessage(String data) {
-                System.out.println("data = " + data);
                 String answer = solver.solve(data);
+                System.out.printf("%s=%s\n", data, answer);
                 try {
                     connection.sendMessage(answer);
                 } catch (IOException e) {

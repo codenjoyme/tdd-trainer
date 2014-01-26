@@ -3,7 +3,6 @@ package com.apofig.tddtrainer.service;
 import com.apofig.tddtrainer.model.Solver;
 import com.codenjoy.dojo.transport.GameState;
 import com.codenjoy.dojo.transport.PlayerTransport;
-import com.codenjoy.dojo.transport.ws.WebSocketPlayerTransport;
 
 import java.io.IOException;
 
@@ -14,21 +13,30 @@ import java.io.IOException;
  */
 public class WsPlayerController implements PlayerController {
 
-    private PlayerTransport transport = new WebSocketPlayerTransport();
+    private PlayerTransport transport;
 
     @Override
-    public void requestControl(String player, final String task) throws IOException {
-        transport.sendState(player, new GameState() {
-            @Override
-            public String asString() {
-                return task;
-            }
-        });
+    public void requestControl(String player, final String task) {
+        try {
+            transport.sendState(player, new GameState() {
+                @Override
+                public String asString() {
+                    return task;
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public Solver register(String player) {
-        PlayerResponseHandlerImpl solver = new PlayerResponseHandlerImpl();
+    public Solver register(final String player) {
+        PlayerResponseHandlerImpl solver = new PlayerResponseHandlerImpl(new Sender() {
+            @Override
+            public void send(String task) {
+                requestControl(player, task);
+            }
+        });
         transport.registerPlayerEndpoint(player, solver, "127.0.0.1");
         return solver;
     }
@@ -36,5 +44,9 @@ public class WsPlayerController implements PlayerController {
     @Override
     public void unregister(String player) {
         transport.unregisterPlayerEndpoint(player);
+    }
+
+    public void setTransport(PlayerTransport transport) {
+        this.transport = transport;
     }
 }

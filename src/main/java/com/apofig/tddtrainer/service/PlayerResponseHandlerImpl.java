@@ -12,6 +12,11 @@ import com.codenjoy.dojo.transport.TransportErrorType;
 public class PlayerResponseHandlerImpl implements PlayerResponseHandler, Solver {
 
     private String answer = null;
+    private Sender sender;
+
+    public PlayerResponseHandlerImpl(Sender sender) {
+        this.sender = sender;
+    }
 
     @Override
     public void onResponseComplete(String answer, Object context) {
@@ -25,6 +30,7 @@ public class PlayerResponseHandlerImpl implements PlayerResponseHandler, Solver 
 
     @Override
     public String solve(String task) {
+        sender.send(task);
         waitForAnswer();
 
         String result = answer;
