@@ -6,6 +6,7 @@ import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -17,10 +18,12 @@ public class TrainerTest {
 
     private Trainer trainer;
     private Solver solver;
+    private Scores scores;
 
     @Before
     public void setup() {
-        trainer = new Trainer(new TasksImpl("1+1", "1+2", "1+3"), new Calculator());
+        scores = mock(Scores.class);
+        trainer = new Trainer(new TasksImpl("1+1", "1+2", "1+3"), new Calculator(), scores);
         solver = mock(Solver.class);
     }
 
@@ -56,6 +59,20 @@ public class TrainerTest {
         solverReturn("3");
 
         assertCurrentTask("1+1");
+    }
+
+    @Test
+    public void shouldAddScoreWhenSolved() {
+        shouldSecondTaskWhenResolveFirst();
+
+        verify(scores).add(100);
+    }
+
+    @Test
+    public void shouldRemoveScoreWhenNotSolved() {
+        shouldStillFirstTaskWhenNotResolveFirst();
+
+        verify(scores).add(-100);
     }
 
 }

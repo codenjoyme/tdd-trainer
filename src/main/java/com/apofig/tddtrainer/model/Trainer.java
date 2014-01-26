@@ -8,12 +8,13 @@ package com.apofig.tddtrainer.model;
 public class Trainer {
 
     private Solver calculator;
-    private Solver solver;
     private Tasks tasks;
+    private Scores scores;
 
-    public Trainer(Tasks tasks, Solver calculator) {
+    public Trainer(Tasks tasks, Solver calculator, Scores scores) {
         this.tasks = tasks;
         this.calculator = calculator;
+        this.scores = scores;
     }
 
     public String getTask() {
@@ -21,13 +22,15 @@ public class Trainer {
     }
 
     public void update(Solver solver) {
-        this.solver = solver;
-//        if (solver == null) return;
+//        if (solver == null) return;   TODO потестить
 
         String actual = solver.solve(getTask());
         String expected = calculator.solve(getTask());
         if (expected.equals(actual)) {
             tasks.solved();
+            scores.add(100);
+        } else {
+            scores.add(-100);
         }
     }
 }
