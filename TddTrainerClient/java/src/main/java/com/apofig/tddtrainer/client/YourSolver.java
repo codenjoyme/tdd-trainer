@@ -1,8 +1,5 @@
 package com.apofig.tddtrainer.client;
 
-import com.apofig.tddtrainer.model.Calculator;
-import com.apofig.tddtrainer.model.Solver;
-
 /**
  * User: sanja
  * Date: 26.01.14
@@ -11,7 +8,9 @@ import com.apofig.tddtrainer.model.Solver;
 public class YourSolver implements Solver {
     @Override
     public String solve(String task) {
-        Calculator calculator = new Calculator();
-        return calculator.solve(task);
+        String[] split = task.split("\\+");
+        Integer i1 = Integer.valueOf(split[0]);
+        Integer i2 = Integer.valueOf(split[1]);
+        return String.valueOf(i1 + i2);
     }
 }

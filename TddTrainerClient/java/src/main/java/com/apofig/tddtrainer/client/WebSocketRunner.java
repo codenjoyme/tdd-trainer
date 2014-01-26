@@ -1,6 +1,5 @@
 package com.apofig.tddtrainer.client;
 
-import com.apofig.tddtrainer.model.Solver;
 import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocketClientFactory;
 

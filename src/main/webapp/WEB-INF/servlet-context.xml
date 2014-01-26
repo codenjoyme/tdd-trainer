@@ -16,7 +16,6 @@
     <!--Among others, enables support for reading and writing JSON, if Jackson is present on the classpath (at least, the Doc affirms it)-->
     <mvc:annotation-driven/>
 
-
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:resources mapping="/favicon.ico" location="/resources/favicon.ico" />
     <!--View resolvers-->
