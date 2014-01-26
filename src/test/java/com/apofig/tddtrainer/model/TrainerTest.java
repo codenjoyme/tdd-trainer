@@ -75,4 +75,14 @@ public class TrainerTest {
         verify(scores).add(-100);
     }
 
+    @Test
+    public void shouldDoNothingWhenSolverIsNull() {
+        assertCurrentTask("1+1");
+
+        trainer.update(null);
+
+        assertCurrentTask("1+1");
+    }
+
+
 }

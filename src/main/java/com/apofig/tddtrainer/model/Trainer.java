@@ -22,7 +22,7 @@ public class Trainer {
     }
 
     public void update(Solver solver) {
-//        if (solver == null) return;   TODO потестить
+        if (solver == null) return;
 
         String actual = solver.solve(getTask());
         String expected = calculator.solve(getTask());
