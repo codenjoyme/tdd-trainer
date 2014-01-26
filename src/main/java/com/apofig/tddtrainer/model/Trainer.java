@@ -23,7 +23,6 @@ public class Trainer implements Tick {
     }
 
     public void set(Solver solver) {
-        if (solver == null) return;
         this.solver = solver;
     }
 
@@ -58,6 +57,8 @@ public class Trainer implements Tick {
 
     @Override
     public void tick() {
+        if (solver == null) return;
+
         runSolver();
     }
 }

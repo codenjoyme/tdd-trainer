@@ -29,16 +29,15 @@ public class PlayerServiceImpl implements Tick {
                 System.out.println("Score added:" + score);
             }
         });
-
-    }
-
-    public void init() {
-        solver = wsPlayerController.register("apofig");
-        trainer.set(solver);
     }
 
     @Override
     public void tick() {
         trainer.tick();
+    }
+
+    public void register(String playerName) {
+        solver = wsPlayerController.register(playerName);
+        trainer.set(solver);
     }
 }
