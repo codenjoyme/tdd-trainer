@@ -1,5 +1,6 @@
 package com.apofig.tddtrainer.client;
 
+import com.apofig.tddtrainer.model.Calculator;
 import com.apofig.tddtrainer.model.Solver;
 
 /**
@@ -10,6 +11,7 @@ import com.apofig.tddtrainer.model.Solver;
 public class YourSolver implements Solver {
     @Override
     public String solve(String task) {
-        return "no-answer";
+        Calculator calculator = new Calculator();
+        return calculator.solve(task);
     }
 }
