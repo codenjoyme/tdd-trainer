@@ -15,10 +15,21 @@ public class PlayerData implements ScreenData {
     private List<String> testList;
     private List<String> info;
 
-    public PlayerData(int score, List<String> testList, List<String> info) {
+    private int leave;
+
+    public PlayerData(int score, List<String> testList, List<String> info, int leave) {
         this.score = score;
         this.testList = testList;
         this.info = info;
+        this.leave = leave;
+    }
+
+    public int getLeave() {
+        return leave;
+    }
+
+    public void setLeave(int leave) {
+        this.leave = leave;
     }
 
     public List<String> getTestList() {

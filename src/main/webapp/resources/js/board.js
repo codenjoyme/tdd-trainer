@@ -22,6 +22,8 @@ function initBoard(playerName, contextPath){
             if (value.contains('next')) color = '#0ff';
             canvas.drawText(value, {x:7, y:1 + parseInt(index)}, color);
         }
+
+        canvas.drawText(parseInt(data.leave) + ' sec', {x:13, y:1}, '#FF0');
     }
 
     function calculateTextSize(text) {
