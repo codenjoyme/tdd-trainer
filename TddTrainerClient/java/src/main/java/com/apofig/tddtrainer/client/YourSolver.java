@@ -8,6 +8,7 @@ package com.apofig.tddtrainer.client;
 public class YourSolver implements Solver {
     @Override
     public String solve(String task) {
+//        if (task.equals("5+6")) return "";
         String[] split = task.split("\\+");
         Integer i1 = Integer.valueOf(split[0]);
         Integer i2 = Integer.valueOf(split[1]);

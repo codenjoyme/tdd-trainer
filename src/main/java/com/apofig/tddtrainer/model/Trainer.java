@@ -90,7 +90,7 @@ public class Trainer implements Tick {
         for (int index = 0; index < list.size(); index++) {
             result.add(list.get(index) + " " + getString(testResult.get(index)));
         }
-        result.add(tasks.getTask() + " " + "current");
+        result.add(tasks.getTask() + " " + "next");
 
         return result;
     }
