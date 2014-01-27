@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -21,20 +22,22 @@ public class PlayerServiceImpl implements Tick {
     private Trainer trainer;
     private Solver solver;
     private Player player;
-    private String info;
-    public int score;
+    private List<String> info;
+    private int score;
+    private int counter;
 
     @Autowired private PlayerController wsPlayerController;
     @Autowired private ScreenSender<ScreenRecipient, PlayerData> screenSender;
 
     public PlayerServiceImpl() {
         List<String> tasks = new WithFile("com\\apofig\\tddtrainer\\tasks.txt").loadSplitted("\r\n");
+        info = new LinkedList<String>();
 
         trainer = new Trainer(new TasksImpl(tasks), new Calculator(), new Scores() {
 
             @Override
             public void add(int score) {
-                info = "" + score;
+                info.add("" + score);
                 PlayerServiceImpl.this.score += score;
                 PlayerServiceImpl.this.score = Math.max(0, PlayerServiceImpl.this.score);
             }
@@ -43,11 +46,15 @@ public class PlayerServiceImpl implements Tick {
 
     @Override
     public void tick() {
-        trainer.tick();
+        if (counter++ == 20) {
+            trainer.tick();
+            counter = 0;
+        }
 
         HashMap<ScreenRecipient, PlayerData> map = new HashMap<ScreenRecipient, PlayerData>();
         map.put(player, new PlayerData(score, trainer.getTestList(), info));
         screenSender.sendUpdates(map);
+        info.clear();
     }
 
     public void register(Player player) {

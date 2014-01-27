@@ -13,9 +13,9 @@ public class PlayerData implements ScreenData {
 
     private int score;
     private List<String> testList;
-    private String info;
+    private List<String> info;
 
-    public PlayerData(int score, List<String> testList, String info) {
+    public PlayerData(int score, List<String> testList, List<String> info) {
         this.score = score;
         this.testList = testList;
         this.info = info;
@@ -37,11 +37,11 @@ public class PlayerData implements ScreenData {
         this.score = score;
     }
 
-    public String getInfo() {
+    public List<String> getInfo() {
         return info;
     }
 
-    public void setInfo(String info) {
+    public void setInfo(List<String> info) {
         this.info = info;
     }
 }

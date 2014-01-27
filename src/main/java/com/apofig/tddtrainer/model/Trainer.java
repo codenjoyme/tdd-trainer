@@ -39,12 +39,22 @@ public class Trainer implements Tick {
 
         String task = tasks.getTask();
         boolean solved = isSolved(solver, task);
-        testResult.add(solved);
+
+        updateLastTestResult(solved);
+
         if (solved) {
             tasks.solved();
             scores.add(100);
         } else {
             scores.add(-100);
+        }
+    }
+
+    private void updateLastTestResult(boolean solved) {
+        if (testResult.size() == tasks.oldTasks().size()) {
+            testResult.add(solved);
+        } else {
+            testResult.set(testResult.size() - 1, solved);
         }
     }
 

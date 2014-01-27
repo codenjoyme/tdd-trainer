@@ -226,5 +226,25 @@ public class TrainerTest {
         verify(scores).add(FAIL_PENALTY);
     }
 
+    @Test
+    public void shouldTestListNotChangeWhenTickAtFailTest() {
+        // given
+        assertCurrentTask("1+1");
+        solverReturn("fail");
+        trainer.tick();
+        reset(scores);
+
+        //when
+        trainer.tick();
+        trainer.tick();
+        trainer.tick();
+        solverReturn("2");
+        trainer.tick();
+
+        // then
+        assertEquals("[1+1 success, 1+2 current]", trainer.getTestList().toString());
+    }
+
+
 
 }

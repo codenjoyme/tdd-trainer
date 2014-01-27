@@ -30,13 +30,12 @@ function initBoard(playerName, contextPath){
     }
 
     function showScoreInformation(information) {
-        if (information != '') {
-            var arr = information.split(', ');
-            for (var i in arr) {
-                if (arr[i] == '0') {
+        if (!!information && information.length > 0) {
+            for (var i in information) {
+                if (information[i] == '0') {
                     continue;
                 }
-                infoPool.push(arr[i]);
+                infoPool.push(information[i]);
             }
         }
         if (infoPool.length == 0) return;
