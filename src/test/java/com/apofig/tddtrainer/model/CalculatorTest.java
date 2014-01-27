@@ -81,6 +81,49 @@ public class CalculatorTest {
     @Test
     public void shouldMultipleSum() {
         assertTask("0x2+02+0b10+2", "8");
+        assertTask("0x2", "2");
+    }
+
+    @Test
+    public void shouldCalcRoman() {
+        assertTask("0rI+00", "1");
+        assertTask("0rII+00", "2");
+        assertTask("0rIII+00", "3");
+        assertTask("0rIV+00", "4");
+        assertTask("0rV+00", "5");
+        assertTask("0rVI+00", "6");
+        assertTask("0rVII+00", "7");
+        assertTask("0rVIII+00", "8");
+        assertTask("0rIX+00", "9");
+        assertTask("0rX+00", "10");
+        assertTask("0rXI+00", "11");
+        assertTask("0rXII+00", "12");
+        assertTask("0rXIII+00", "13");
+        assertTask("0rXIV+00", "14");
+        assertTask("0rXV+00", "15");
+        assertTask("0rXVI+00", "16");
+        assertTask("0rXVII+00", "17");
+        assertTask("0rXVIII+00", "18");
+        assertTask("0rXIX+00", "19");
+        assertTask("0rXX+00", "20");
+        assertTask("0rXXI+00", "21");
+        assertTask("0rXXII+00", "22");
+        assertTask("0rXXIII+00", "23");
+        assertTask("0rXXIV+00", "24");
+        assertTask("0rXXV+00", "25");
+        assertTask("0rXXVI+00", "26");
+        assertTask("0rXXVII+00", "27");
+        assertTask("0rXXVIII+00", "28");
+        assertTask("0rXXIX+00", "29");
+        assertTask("0rXXX+00", "30");
+        assertTask("0rXXXI+00", "31");
+        assertTask("0rXLVI+00", "46");
+        assertTask("0rXCIX+00", "99");
+        assertTask("0rDLXXXIII+00", "583");
+        assertTask("0rDCCCLXXXVIII+00", "888");
+        assertTask("0rMDCLXVIII+00", "1668");
+        assertTask("0rMCMLXXXIX+00", "1989");
+        assertTask("0rMMMCMXCIX+00", "3999");
     }
 
     private void assertTask(String task, String expected) {

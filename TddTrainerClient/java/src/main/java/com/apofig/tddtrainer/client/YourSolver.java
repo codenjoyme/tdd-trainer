@@ -25,11 +25,29 @@ public class YourSolver implements Solver {
             return Integer.parseInt(s.substring(2, s.length()), 2);
         }
         if (s.startsWith("0r")) {
-            return 0; // TODO
+            return toArabic(s.substring(2, s.length()));
         }
         if (s.startsWith("0")) {
             return Integer.parseInt(s.substring(1, s.length()), 8);
         }
         return Integer.valueOf(s);
+    }
+
+    public static int toArabic(String number) {
+        if (number.isEmpty()) return 0;
+        if (number.startsWith("M")) return 1000 + toArabic(number.substring(1));
+        if (number.startsWith("CM")) return 900 + toArabic(number.substring(2));
+        if (number.startsWith("D")) return 500 + toArabic(number.substring(1));
+        if (number.startsWith("CD")) return 400 + toArabic(number.substring(2));
+        if (number.startsWith("C")) return 100 + toArabic(number.substring(1));
+        if (number.startsWith("XC")) return 90 + toArabic(number.substring(2));
+        if (number.startsWith("L")) return 50 + toArabic(number.substring(1));
+        if (number.startsWith("XL")) return 40 + toArabic(number.substring(2));
+        if (number.startsWith("X")) return 10 + toArabic(number.substring(1));
+        if (number.startsWith("IX")) return 9 + toArabic(number.substring(2));
+        if (number.startsWith("V")) return 5 + toArabic(number.substring(1));
+        if (number.startsWith("IV")) return 4 + toArabic(number.substring(2));
+        if (number.startsWith("I")) return 1 + toArabic(number.substring(1));
+        throw new IllegalArgumentException("Что-то пошло не так");
     }
 }
