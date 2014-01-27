@@ -12,7 +12,7 @@ import java.io.IOException;
 public interface PlayerController {
     void requestControl(String player, String task) throws IOException;
 
-    Solver register(String player);
+    Solver register(String player, String ip);
 
     void unregister(String player);
 }

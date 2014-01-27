@@ -37,7 +37,7 @@ public class WsPlayerControllerTest {
     @Test
     public void shouldCreateSolverWhenRegister() throws IOException {
         // when
-        Solver solver = controller.register("player");
+        Solver solver = controller.register("player", "127.0.0.1");
 
         // then
         verify(transport).registerPlayerEndpoint("player", (PlayerResponseHandlerImpl)solver, "127.0.0.1");
@@ -46,7 +46,7 @@ public class WsPlayerControllerTest {
     @Test
     public void shouldSendTask() throws IOException {
         // given
-        Solver solver = controller.register("player");
+        Solver solver = controller.register("player", "127.0.0.1");
 
         // when
         solver.solve("task");
@@ -69,7 +69,7 @@ public class WsPlayerControllerTest {
     @Test
     public void shouldAnswer() throws IOException {
         // given
-        Solver solver = controller.register("player");
+        Solver solver = controller.register("player", "127.0.0.1");
 
         // when
         ((PlayerResponseHandlerImpl)solver).onResponseComplete("answer", null);
@@ -82,7 +82,7 @@ public class WsPlayerControllerTest {
     @Test
     public void shouldWaitForAnswer() throws IOException {
         // given
-        Solver solver = controller.register("player");
+        Solver solver = controller.register("player", "127.0.0.1");
 
         // when
         String answer = solver.solve("task");

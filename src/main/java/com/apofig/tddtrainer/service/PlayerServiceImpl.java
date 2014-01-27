@@ -59,7 +59,7 @@ public class PlayerServiceImpl implements Tick {
 
     public void register(Player player) {
         this.player = player;
-        solver = wsPlayerController.register(player.getName());
+        solver = wsPlayerController.register(player.getName(), player.getCallbackUrl());
         trainer.set(solver);
     }
 

@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class WebSocketRunner {
 
-//    private static final String SERVER = "ws://tetrisj.jvmhost.net:12270/codenjoy-contest/ws";
-    private static final String SERVER = "ws://127.0.0.1:8080/tdd-trainer/ws";
+    private static final String SERVER = "ws://tetrisj.jvmhost.net:12270/tdd-trainer/ws";
+//    private static final String SERVER = "ws://127.0.0.1:8080/tdd-trainer/ws";
     private static String USER_NAME = "apofig";
 
     private WebSocket.Connection connection;

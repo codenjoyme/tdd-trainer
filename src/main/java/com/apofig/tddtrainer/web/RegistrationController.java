@@ -33,7 +33,7 @@ public class RegistrationController {
         player.setName(request.getParameter("name"));
         model.addAttribute("player", player);
 
-        player.setCallbackUrl("http://" + ip + ":8888");
+        player.setCallbackUrl(ip);
 
         return "register";
     }

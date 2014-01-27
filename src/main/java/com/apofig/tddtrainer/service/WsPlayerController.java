@@ -30,14 +30,14 @@ public class WsPlayerController implements PlayerController {
     }
 
     @Override
-    public Solver register(final String player) {
+    public Solver register(final String player, String ip) {
         PlayerResponseHandlerImpl solver = new PlayerResponseHandlerImpl(new Sender() {
             @Override
             public void send(String task) {
                 requestControl(player, task);
             }
         });
-        transport.registerPlayerEndpoint(player, solver, "127.0.0.1");
+        transport.registerPlayerEndpoint(player, solver, ip);
         return solver;
     }
 
