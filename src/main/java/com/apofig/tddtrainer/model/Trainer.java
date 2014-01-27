@@ -88,11 +88,15 @@ public class Trainer implements Tick {
 
         List<String> list = tasks.oldTasks();
         for (int index = 0; index < list.size(); index++) {
-            result.add(list.get(index) + " " + getString(testResult.get(index)));
+            result.add(info(list.get(index)) + " " + getString(testResult.get(index)));
         }
-        result.add(tasks.getTask() + " " + "next");
+        result.add(info(tasks.getTask()) + " " + "next");
 
         return result;
+    }
+
+    private String info(String task) {
+        return task + "=" + calculator.solve(task);
     }
 
     private String getString(Boolean b) {

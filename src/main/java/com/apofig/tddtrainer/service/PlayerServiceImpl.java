@@ -46,9 +46,8 @@ public class PlayerServiceImpl implements Tick {
 
     @Override
     public void tick() {
-        if (counter++ == 20) {
+        if (counter++ % 1 == 0) {
             trainer.tick();
-            counter = 0;
         }
 
         HashMap<ScreenRecipient, PlayerData> map = new HashMap<ScreenRecipient, PlayerData>();

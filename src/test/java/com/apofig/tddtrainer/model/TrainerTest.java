@@ -186,7 +186,7 @@ public class TrainerTest {
         trainer.tick();
 
         // then
-        assertEquals("[1+1 fail, 1+2 success, 1+3 next]", trainer.getTestList().toString());
+        assertEquals("[1+1=2 fail, 1+2=3 success, 1+3=4 next]", trainer.getTestList().toString());
     }
 
     @Test
@@ -207,7 +207,7 @@ public class TrainerTest {
         trainer.tick();
 
         // then
-        assertEquals("[1+1 success, 1+2 success, 1+3 success, 1+4 next]", trainer.getTestList().toString());
+        assertEquals("[1+1=2 success, 1+2=3 success, 1+3=4 success, 1+4=5 next]", trainer.getTestList().toString());
     }
 
     @Test
@@ -242,7 +242,7 @@ public class TrainerTest {
         trainer.tick();
 
         // then
-        assertEquals("[1+1 success, 1+2 next]", trainer.getTestList().toString());
+        assertEquals("[1+1=2 success, 1+2=3 next]", trainer.getTestList().toString());
     }
 
 

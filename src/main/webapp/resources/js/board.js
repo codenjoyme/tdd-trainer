@@ -17,8 +17,8 @@ function initBoard(playerName, contextPath){
             var value = data.testList[index];
             if (value.contains('fail')) color = '#f00';
             if (value.contains('success')) color = '#0f0';
-            if (value.contains('current')) color = '#0ff';
-            canvas.drawText(value, {x:5, y:1 + parseInt(index)}, color);
+            if (value.contains('next')) color = '#0ff';
+            canvas.drawText(value, {x:7, y:1 + parseInt(index)}, color);
         }
     }
 
@@ -70,7 +70,7 @@ function initBoard(playerName, contextPath){
     function createCanvas(canvasName) {
         var plotSize = 20;
         var canvas = $("#" + canvasName);
-        canvas[0].width = plotSize * 30;
+        canvas[0].width = plotSize * 15 ;
         canvas[0].height = plotSize * 30;
 
         var drawPlot = function(color, x, y) {
@@ -83,6 +83,9 @@ function initBoard(playerName, contextPath){
         };
 
         var drawText = function(name, pt, color) {
+            if (canvas[0].height < (pt.y - 2) * plotSize) {
+                canvas[0].height = canvas[0].height * 1.5;
+            }
             canvas.drawText({
                 fillStyle: color,
                 strokeStyle: '#000',
