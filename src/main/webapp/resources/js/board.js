@@ -12,7 +12,9 @@ function initBoard(playerName, contextPath){
     }
 
     function drawBoardForPlayer(data) {
+        canvas.resizeHeight(data.testList.length + 1);
         canvas.clear();
+
         for (var index in data.testList) {
             var value = data.testList[index];
             if (value.contains('fail')) color = '#f00';
@@ -71,7 +73,7 @@ function initBoard(playerName, contextPath){
         var plotSize = 20;
         var canvas = $("#" + canvasName);
         canvas[0].width = plotSize * 15 ;
-        canvas[0].height = plotSize * 30;
+        canvas[0].height = plotSize * 15;
 
         var drawPlot = function(color, x, y) {
             var plot = $("#" + color)[0];
@@ -83,9 +85,6 @@ function initBoard(playerName, contextPath){
         };
 
         var drawText = function(name, pt, color) {
-            if (canvas[0].height < (pt.y - 2) * plotSize) {
-                canvas[0].height = canvas[0].height * 1.5;
-            }
             canvas.drawText({
                 fillStyle: color,
                 strokeStyle: '#000',
@@ -101,10 +100,17 @@ function initBoard(playerName, contextPath){
             canvas.clearCanvas();
         }
 
+        var resizeHeight = function(current) {
+            if (canvas[0].height < current * plotSize) {
+                canvas[0].height = canvas[0].height * 1.5;
+            }
+        }
+
         return {
             drawPlot : drawPlot,
             drawText: drawText,
-            clear : clear
+            clear : clear,
+            resizeHeight : resizeHeight
         };
     }
 

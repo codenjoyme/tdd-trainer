@@ -24,11 +24,11 @@ public class YourSolver implements Solver {
         if (s.startsWith("0b")) {
             return Integer.parseInt(s.substring(2, s.length()), 2);
         }
-        if (s.startsWith("0")) {
-            return Integer.parseInt(s.substring(1, s.length()), 8);
-        }
         if (s.startsWith("0r")) {
             return 0; // TODO
+        }
+        if (s.startsWith("0")) {
+            return Integer.parseInt(s.substring(1, s.length()), 8);
         }
         return Integer.valueOf(s);
     }
