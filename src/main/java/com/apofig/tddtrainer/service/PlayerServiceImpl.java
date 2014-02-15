@@ -30,7 +30,7 @@ public class PlayerServiceImpl implements Tick {
     @Autowired private ScreenSender<ScreenRecipient, PlayerData> screenSender;
 
     public PlayerServiceImpl() {
-        List<String> tasks = new WithFile("com\\apofig\\tddtrainer\\tasks.txt").loadSplitted("\r\n");
+        List<String> tasks = new WithFile("com/apofig/tddtrainer/tasks.txt").loadSplitted("\r\n");
         info = new LinkedList<String>();
 
         trainer = new Trainer(new TasksImpl(tasks), new Calculator(), new Scores() {
