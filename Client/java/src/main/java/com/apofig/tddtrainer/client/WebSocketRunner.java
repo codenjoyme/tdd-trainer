@@ -17,7 +17,7 @@ public class WebSocketRunner {
 
 //    private static final String SERVER = "ws://tetrisj.jvmhost.net:12270/tdd-trainer/ws";
     private static final String SERVER = "ws://127.0.0.1:8080/tdd-trainer/ws";
-    private static String USER_NAME = "apofig";
+    private static String USER_NAME = "userName";
 
     private WebSocket.Connection connection;
     private Solver solver;
@@ -28,10 +28,15 @@ public class WebSocketRunner {
     }
 
     public static void main(String[] args) throws Exception {
-        run(SERVER, USER_NAME);
+		String userName = USER_NAME;
+		if (args.length == 1 && args[0] != null) {
+			userName = args[0];
+		}
+		run(SERVER, userName);
     }
 
     private static void run(String server, String userName) throws Exception {
+		System.out.printf("Connecting '%s' to the '%s'\n", userName, server);
         final WebSocketRunner client = new WebSocketRunner(new YourSolver());
         client.start(server, userName);
         Runtime.getRuntime().addShutdownHook(new Thread(){
@@ -58,11 +63,11 @@ public class WebSocketRunner {
         WebSocketClient client = factory.newWebSocketClient();
         connection = client.open(new URI(server + "?user=" + userName), new WebSocket.OnTextMessage() {
             public void onOpen(Connection connection) {
-                System.out.println("Opened");
+                System.out.println("Connected successfully!");
             }
 
             public void onClose(int closeCode, String message) {
-                System.out.println("Closed");
+                System.out.println("Connection closed!");
             }
 
             public void onMessage(String data) {
